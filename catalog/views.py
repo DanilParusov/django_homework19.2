@@ -9,7 +9,8 @@ def contacts(request):
     if request.method == 'POST':
         # в переменной request хранится информация о методе, который отправлял пользователь
         name = request.POST.get('name')
-        email = request.POST.get('email')
+        email = request.POST.get('phone')
+        message = request.POST.get('message')
         # а также передается информация, которую заполнил пользователь
-        print(f"{name} - {email}")
+        print(f"{name} - {email} - {message}")
     return render(request, 'catalog/contacts.html')
