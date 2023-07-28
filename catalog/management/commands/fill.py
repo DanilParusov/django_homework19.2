@@ -13,7 +13,7 @@ class Command(BaseCommand):
         ]
 
         product_list = [
-            {'name': 'bmw', 'category': 'car', 'price': '2000'},
+            {'name': 'bmw', 'category': 'car', 'price': '2000', 'description': 'Hellow sddddddddddddddddddddfffffffffsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'},
             {'name': 'iphone', 'category': 'phone', 'price': '2000'},
             {'name': 'lenovo', 'category': 'laptop', 'price': '2000'},
             {'name': 'villa', 'category': 'house', 'price': '500000'},
