@@ -1,123 +1,26 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>index</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-          crossorigin="anonymous">
-    <style>
-        /* Дополнительные стили */
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
+{% extends 'catalog/base.html' %}
 
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-        }
+{% block title %}На главной странице{% endblock %}
 
-        .content {
-            margin-top: 20px;
-        }
-
-        .card-img-top {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-title {
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            height: 60px;
-            overflow: hidden;
-        }
-    </style>
-</head>
-<body>
-<div class="d-flex flex-row">
-    <!-- Sidebar -->
-    <div class="sidebar d-flex flex-column align-items-start justify-content-between">
-        <a href="/" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-            <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-4">Меню</span>
-        </a>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/" class="nav-link active" aria-current="page">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
-                    Главная
-                </a>
-            </li>
-            <li>
-                <a href="/contacts" class="nav-link text-white">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                    Категории
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-                    Заказы
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link text-white">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                    Контакты
-                </a>
-            </li>
-        </ul>
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-               data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>Пользователь</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                <li><a class="dropdown-item" href="#">Профиль</a></li>
-                <li><a class="dropdown-item" href="#">Выход</a></li>
-            </ul>
-        </div>
+{% block content %}
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal text-body-emphasis">На главной странице</h1>
+        <p class="fs-5 text-body-secondary">Вы находитесь на сайте продаж</p>
     </div>
-
-    <!-- Контент с карточками -->
-    <div class="content container">
-        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal text-body-emphasis">На главной странице</h1>
-            <p class="fs-5 text-body-secondary">Вы находитесь на сайте продаж</p>
-        </div>
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-            {% for object in object_list %}
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <img src="/media/product_image/{{ object.image }}" class="card-img-top" alt="Изображение товара">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ object }}</h4>
-                        <h1 class="card-title pricing-card-title">{{ object.price }}$<small
-                                class="text-body-secondary fw-light"></small></h1>
-                        <p class="card-text">{{ object.description|truncatechars:100 }}</p>
-                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
-                    </div>
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% for object in object_list %}
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <img src="{{ object.image|mediapath }}" class="card-img-top" alt="Изображение товара">
+                <div class="card-body">
+                    <h4 class="card-title">{{ object }}</h4>
+                    <h1 class="card-title pricing-card-title">{{ object.price }}$<small
+                            class="text-body-secondary fw-light"></small></h1>
+                    <p class="card-text">{{ object.description | truncatewords:100 }}</p>
+                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
-        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}
