@@ -1,4 +1,5 @@
 {% extends 'catalog/base.html' %}
+{% load tags %}
 
 {% block title %}На главной странице{% endblock %}
 
@@ -11,7 +12,7 @@
         {% for object in object_list %}
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
-                <img src="{{ object.image|mediapath }}" class="card-img-top" alt="Изображение товара">
+                <img src="{{ object.image|media_path }}" class="card-img-top" alt="Изображение товара">
                 <div class="card-body">
                     <h4 class="card-title">{{ object }}</h4>
                     <h1 class="card-title pricing-card-title">{{ object.price }}$<small
