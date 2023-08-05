@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from catalog.models import Product
@@ -21,9 +22,9 @@ def contacts(request):
         print(f"{name} - {email} - {message}")
     return render(request, 'catalog/contacts.html')
 
-def product_detail(request):
-    product_list = Product.objects.all()
+def product_detail(request, object_id):
+    product = Product.objects.filter(id=object_id)
     context = {
-        'object_list': product_list
+        'object': product
     }
     return render(request, 'catalog/product_detail.html', context)

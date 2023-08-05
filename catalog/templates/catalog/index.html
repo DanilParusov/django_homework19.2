@@ -18,7 +18,12 @@
                     <h1 class="card-title pricing-card-title">{{ object.price }}$<small
                             class="text-body-secondary fw-light"></small></h1>
                     <p class="card-text">{{ object.description | truncatewords:100 }}</p>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                    <li class="nav-item">
+                        <a href="/detail/{{ object.id }}" class="nav-link active" aria-current="page">
+                            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                            Купить
+                        </a>
+                    </li>
                 </div>
             </div>
         </div>
