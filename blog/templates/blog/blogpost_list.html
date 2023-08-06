@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4">Blog Posts</h1>
+    <div class="row">
+        {% for post in object_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ post.preview.url }}" alt="{{ post.title }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content|truncatechars:100 }}</p>
+                    <a href="{% url 'blogpost_detail' post.slug %}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

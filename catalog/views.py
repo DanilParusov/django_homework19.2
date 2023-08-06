@@ -1,16 +1,14 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.views.generic import ListView, DetailView
 from catalog.models import Product
 
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
 
-def index(request):
-    product_list = Product.objects.all()
-    context = {
-        'object_list': product_list
-    }
-    return render(request, 'catalog/index.html', context)
-
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/product_detail.html'
 
 def contacts(request):
     if request.method == 'POST':
@@ -22,9 +20,3 @@ def contacts(request):
         print(f"{name} - {email} - {message}")
     return render(request, 'catalog/contacts.html')
 
-def product_detail(request, object_id):
-    product = Product.objects.filter(id=object_id)
-    context = {
-        'object': product
-    }
-    return render(request, 'catalog/product_detail.html', context)

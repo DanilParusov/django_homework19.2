@@ -25,3 +25,5 @@ class Product(models.Model):
         return f'{self.name}'
 
 
+
+

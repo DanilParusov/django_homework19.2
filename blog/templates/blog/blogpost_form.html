@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4">Create Blog Post</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="slug">Slug:</label>
+            <input type="text" class="form-control" id="slug" name="slug" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="preview">Preview (Image):</label>
+            <input type="file" class="form-control-file" id="preview" name="preview" required>
+        </div>
+        <div class="form-group">
+            <label for="is_published">Is Published:</label>
+            <input type="checkbox" class="form-control" id="is_published" name="is_published">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+{% endblock content %}

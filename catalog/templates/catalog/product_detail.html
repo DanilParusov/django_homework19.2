@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-{% for object in object %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,14 +13,9 @@
     <h1 class="display-4">{{ object.name }}</h1>
     <img src="{{ object.image }}" alt="{{ object.name }}" class="img-fluid">
     <p class="lead">{{ object.description }}</p>
-    <p class="h3">Цена: ${{ object.price }}</p>
-    <!-- Дополнительные информационные поля о товаре могут быть добавлены здесь -->
-    <!-- Например: <p class="h4">Категория: {{ product.category }}</p> -->
-
-    <!-- Кнопка для добавления товара в корзину или другие действия -->
+    <p class="h3">Цена: ${{ object.price }}</p
     <button type="button" class="btn btn-primary">Добавить в корзину</button>
 </div>
-{% endfor %}
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
