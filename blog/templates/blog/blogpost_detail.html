@@ -2,11 +2,10 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="display-4">{{ post.title }}</h1>
-    <img src="{{ post.preview.url }}" alt="{{ post.title }}" class="img-fluid">
-    <p class="lead">{{ post.content }}</p>
-    <p class="h3">Дата создания: {{ post.created_at }}</p>
-    <p class="h3">Признак публикации: {% if post.is_published %} Опубликовано {% else %} Не опубликовано {% endif %}</p>
-    <p class="h3">Количество просмотров: {{ post.views_count }}</p>
+    <h1 class="display-4">{{ object.title }}</h1>
+    <img src="{{ object.preview.url }}" alt="{{ object.title }}" class="card-img-top">
+    <p class="lead">{{ object.content }}</p>
+    <p class="h3">Дата создания: {{ object.created_at }}</p>
+    <p class="h3">Количество просмотров: {{ object.views_count }}</p>
 </div>
 {% endblock content %}
