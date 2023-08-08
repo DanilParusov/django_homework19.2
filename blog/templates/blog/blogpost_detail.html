@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
     <h1 class="display-4">{{ object.title }}</h1>
+    <h1 class="display-4">{{ object.slug }}</h1>
     <img src="{{ object.preview.url }}" alt="{{ object.title }}" class="card-img-top">
     <p class="lead">{{ object.content }}</p>
     <p class="h3">Дата создания: {{ object.created_at }}</p>

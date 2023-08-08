@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 
 class BlogCreateView(CreateView):
     model = BlogPost
-    fields = ['title', 'slug', 'content', 'preview']
+    fields = ['title', 'content', 'preview']
     success_url = reverse_lazy('blogpost:blog_list')
 
     def form_valid(self, form):
@@ -41,17 +41,18 @@ class BlogDeleteView(DeleteView):
 
 class BlogUpdateView(UpdateView):
     model = BlogPost
-    fields = ['title', 'slug', 'content', 'preview']
+    fields = ['title', 'content', 'preview']
 
     def form_valid(self, form):
         if form.is_valid():
             new_post = form.save()
-            new_post_slug = slugify(new_post.title)
+            new_post.slug = slugify(new_post.title)
             new_post.save()
+            self.kwargs['slug'] = new_post.slug
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blogpost:blog_view', args=[self.kwargs.get('pk')])
+        return reverse('blogpost:blog_view', args=[self.kwargs.get('slug')])
 
 

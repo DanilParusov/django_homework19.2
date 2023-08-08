@@ -16,9 +16,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ post.title }}</h5>
                     <p class="card-text">{{ post.content|truncatechars:100 }}</p>
-                    <a href="{% url 'blogpost:blog_view' post.slug %}" class="btn btn-primary">View</a>
-                    <a href="{% url 'blogpost:blog_edit' post.slug %}" class="btn btn-secondary">Edit</a>
-                    <a href="{% url 'blogpost:blog_delete' post.slug %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'blogpost:blog_view' post.pk %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'blogpost:blog_edit' post.pk %}" class="btn btn-secondary">Edit</a>
+                    <a href="{% url 'blogpost:blog_delete' post.pk %}" class="btn btn-danger">Delete</a>
 
                 </div>
             </div>
