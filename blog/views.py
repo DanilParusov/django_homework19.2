@@ -12,7 +12,7 @@ class BlogCreateView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             new_post = form.save()
-            new_post_slug = slugify(new_post.title)
+            new_post.slug = slugify(new_post.title)
             new_post.save()
 
         return super().form_valid(form)
