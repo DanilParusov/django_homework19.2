@@ -4,7 +4,7 @@ from pytils.translit import slugify
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
-    slug = models.CharField(default=slugify(str(title)))
+    slug = models.CharField(max_length=150, verbose_name='Slug')
     content = models.TextField(verbose_name='Содержимое')
     preview = models.ImageField(upload_to='blog_previews/', verbose_name='Превью (изображение)')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
