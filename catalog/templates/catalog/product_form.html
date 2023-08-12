@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    <div class="card_body">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if object%}
+            Save
+        {% else %}
+            Create
+        {% endif %}
+    </button>
+    </div>
+    <div class="card_body">
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+        {{ form.as_p }}
+        {% endfor %}
+    </div>
+
+
+</form>
+{% endblock %}
