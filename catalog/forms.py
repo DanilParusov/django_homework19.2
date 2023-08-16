@@ -23,6 +23,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
         if cleaned_data in stop_list:
             raise forms.ValidationError('Запрещенный продукт')
+        return cleaned_data
 
 
 class VersionForm(forms.ModelForm):
