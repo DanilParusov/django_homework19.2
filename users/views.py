@@ -21,16 +21,20 @@ class RegisterView(CreateView):
             code = ''.join([str(random.randint(0, 9)) for _ in range(12)])
             self.object.verification_code = code
             self.object.save()
+            verification_url = reverse('users:confirm_email', args=[self.object.verification_code])
+            link = self.request.build_absolute_uri(verification_url)
+
             send_mail(
-                'email verification',
-                f'Your password - {code}',
-                settings.EMAIL_HOST_USER,
-                [self.object.email]
+                'Подтверждение регистрации',
+                f'Пожалуйста, перейдите по ссылке для подтверждения: {link}',
+                settings.DEFAULT_FROM_EMAIL,  # Отправитель
+                [self.object.email],  # Получатель(и)
+                fail_silently=False,
             )
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('users:verify_email', kwargs={'email': self.object.email})
+        return reverse('users:confirm_email', kwargs={'email': self.object.email})
 
 class ProfileView(UpdateView):
     model = User
