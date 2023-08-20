@@ -45,15 +45,12 @@ class ProfileView(UpdateView):
         return self.request.user
 
 def verify_email(request, email):
-    if request.method == 'POST':
-        code_to_check = request.POST.get('verification_code')
-        user = User.objects.get(email=email)
-        if user.verification_code == code_to_check:
-            user.is_email_verified = True
-            user.save()
-            return redirect(reverse('users:login'))
-        else:
-            raise ValidationError(f'You have used the wrong code!')
+
+    users = User.objects.filter(verification_code=email)
+    if len(users) > 0:
+        user = users[0]
+        user.is_email_verified = True
+        user.save()
+        return redirect(reverse('users:login'))
     else:
-        context = {'page_title': 'Email verification'}
-        return render(request, 'users/verify_email.html', context)
+        raise ValidationError(f'You have used the wrong code!')
