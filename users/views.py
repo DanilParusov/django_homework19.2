@@ -21,12 +21,9 @@ class RegisterView(CreateView):
             code = ''.join([str(random.randint(0, 9)) for _ in range(12)])
             self.object.verification_code = code
             self.object.save()
-            verification_url = reverse('users:confirm_email', args=[self.object.verification_code])
-            link = self.request.build_absolute_uri(verification_url)
-
             send_mail(
                 'Подтверждение регистрации',
-                f'Пожалуйста, перейдите по ссылке для подтверждения: {link}',
+                f'Пожалуйста, перейдите по ссылке для подтверждения: {code}',
                 settings.DEFAULT_FROM_EMAIL,  # Отправитель
                 [self.object.email],  # Получатель(и)
                 fail_silently=False,
@@ -35,6 +32,7 @@ class RegisterView(CreateView):
 
     def get_success_url(self):
         return reverse('users:confirm_email', kwargs={'email': self.object.email})
+
 
 class ProfileView(UpdateView):
     model = User
@@ -45,12 +43,13 @@ class ProfileView(UpdateView):
         return self.request.user
 
 def verify_email(request, email):
+    if request.method == 'POST':
+        code_to_check = request.POST.get('verification_code')
+        user = User.objects.get(email=email)
+        if user.verification_code == code_to_check:
+            user.email_verify = True
+            user.save()
+            return redirect(reverse('users:login'))
+        else:
+            raise ValidationError(f'You have used the wrong code!')
 
-    users = User.objects.filter(verification_code=email)
-    if len(users) > 0:
-        user = users[0]
-        user.is_email_verified = True
-        user.save()
-        return redirect(reverse('users:login'))
-    else:
-        raise ValidationError(f'You have used the wrong code!')
