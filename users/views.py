@@ -43,13 +43,12 @@ class ProfileView(UpdateView):
         return self.request.user
 
 def verify_email(request, email):
-    if request.method == 'POST':
-        code_to_check = request.POST.get('verification_code')
-        user = User.objects.get(email=email)
-        if user.verification_code == code_to_check:
-            user.email_verify = True
-            user.save()
-            return redirect(reverse('users:login'))
-        else:
-            raise ValidationError(f'You have used the wrong code!')
+    code_to_check = request.POST.get('verification_code')
+    user = User.objects.get(email=email)
+    if user.verification_code == code_to_check:
+        user.email_verify = True
+        user.save()
+        return redirect(reverse('users:login'))
+    else:
+        raise ValidationError(f'You have used the wrong code!')
 
