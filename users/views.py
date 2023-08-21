@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, TemplateView
 
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
@@ -21,9 +21,11 @@ class RegisterView(CreateView):
             code = ''.join([str(random.randint(0, 9)) for _ in range(12)])
             self.object.verification_code = code
             self.object.save()
+            verification_url = reverse('users:confirm_email', args=[self.object.verification_code])
+            link = self.request.build_absolute_uri(verification_url)
             send_mail(
                 'Подтверждение регистрации',
-                f'Пожалуйста, введите данный код: {code}',
+                f'Пожалуйста, введите данный код: {link}',
                 settings.DEFAULT_FROM_EMAIL,  # Отправитель
                 [self.object.email],  # Получатель(и)
                 fail_silently=False,
@@ -31,7 +33,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('users:confirm_email', kwargs={'email': self.object.email})
+        return reverse('users:notification')
 
 
 class ProfileView(UpdateView):
@@ -51,4 +53,7 @@ def verify_email(request, email):
         return redirect(reverse('users:login'))
     else:
         raise ValidationError(f'You have used the wrong code!')
+
+class EmailVerificationNoticeView(TemplateView):
+    template_name = 'users/warning_message.html'
 
