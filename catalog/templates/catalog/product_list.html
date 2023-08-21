@@ -10,11 +10,14 @@
     </div>
     <div class="row">
         <div class="col-md-12 mb-3">
+            {% if user.is_authenticated %}
             <a href="{% url 'catalog:create' %}" class="btn btn-primary float-right">Добавить</a>
+            {% endif %}
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% for object in object_list %}
+        {% if object.is_active %}
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
                 <img src="{{ object.image|media_path }}" class="card-img-top" alt="Изображение товара">
@@ -22,12 +25,16 @@
                     <h5 class="card-title">{{ object.name }}</h5>
                     <p class="card-text">{{ object.category|truncatechars:100 }}</p>
                     <a href="{% url 'catalog:product_view' object.pk %}" class="btn btn-primary">View</a>
+                    {% if user.is_authenticated %}
                     <a href="{% url 'catalog:product_edit' object.pk %}" class="btn btn-secondary">Edit</a>
                     <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+
 
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

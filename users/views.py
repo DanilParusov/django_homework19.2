@@ -23,7 +23,7 @@ class RegisterView(CreateView):
             self.object.save()
             send_mail(
                 'Подтверждение регистрации',
-                f'Пожалуйста, перейдите по ссылке для подтверждения: {code}',
+                f'Пожалуйста, введите данный код: {code}',
                 settings.DEFAULT_FROM_EMAIL,  # Отправитель
                 [self.object.email],  # Получатель(и)
                 fail_silently=False,

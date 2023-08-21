@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.forms import ModelChoiceField, inlineformset_factory
+from django.http import Http404
 from django.shortcuts import render
 from catalog.models import Product, Category, Version
 from catalog.forms import ProductForm, VersionForm
@@ -8,7 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from pytils.translit import slugify
 from django.urls import reverse_lazy, reverse
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
@@ -18,6 +20,11 @@ class ProductCreateView(CreateView):
         context['categories'] = Category.objects.all()
         return context
 
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.creator = self.request.user
+        product.save()
+        return super().form_valid(form)
 
 class ProductListView(ListView):
     model = Product
@@ -25,14 +32,20 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
 #
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.creator != self.request.user:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
