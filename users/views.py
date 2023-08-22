@@ -44,10 +44,10 @@ class ProfileView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-def verify_email(request, email):
-    code_to_check = request.POST.get('verification_code')
-    user = User.objects.get(email=email)
-    if user.verification_code == code_to_check:
+def verify_email(request, verification_code):
+    users = User.objects.filter(verification_code=verification_code)
+    if len(users) > 0:
+        user = users[0]
         user.email_verify = True
         user.save()
         return redirect(reverse('users:login'))
