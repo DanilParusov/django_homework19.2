@@ -152,3 +152,10 @@ EMAIL_HOST_USER = 'skypro.django@gmail.com'  # Ваш логин на почто
 EMAIL_HOST_PASSWORD = 'ahnwslyeqqpigwbi'  # Ваш пароль на почтовом сервере
 DEFAULT_FROM_EMAIL = 'skypro.django@gmail.com'  # Ваш email, который будет использован как отправитель
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+

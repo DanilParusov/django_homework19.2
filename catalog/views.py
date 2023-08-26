@@ -35,7 +35,7 @@ class ProductDetailView(DetailView):
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
-#
+
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
@@ -43,8 +43,16 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.object.creator != self.request.user:
+
+        # Проверяем, является ли текущий пользователь создателем или модератором
+        user_is_creator_or_moderator = (
+                self.request.user == self.object.creator or
+                self.request.user.is_staff  # Проверка на модератора (is_staff)
+        )
+
+        if not user_is_creator_or_moderator:
             raise Http404
+
         return self.object
 
     def get_context_data(self, **kwargs):
