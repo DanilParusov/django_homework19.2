@@ -10,6 +10,9 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from pytils.translit import slugify
 from django.urls import reverse_lazy, reverse
 
+from catalog.services import get_categories_cache
+
+
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -77,6 +80,13 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+class CategoryListView(ListView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['category_list'] = get_categories_cache()
+        return context_data
 
 # def contacts(request):
 #     if request.method == 'POST':
